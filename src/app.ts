@@ -16,7 +16,16 @@ function sum(a: number, b: number):number{
     return a + b;
 }
 
-sum(10,5)
+type Product = {
+    id: number, 
+    name: string,
+}
+
+const getProduct =  <T extends Product> (product: T[])=>{
+    const result = product.map(item => item.name);
+}
+
+getProduct([{id:1,name:"Linh"},{id:2,name:"Vu"}]);
 
 
 
