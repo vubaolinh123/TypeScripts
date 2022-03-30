@@ -1,44 +1,62 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import logo from './logo.svg'
 import './App.css'
+import { NavLink, Route, Routes } from 'react-router-dom'
+import Homepage from './pages/Homepage'
+import ProductPage from './pages/Productpage'
+import Aboutpage from './pages/Aboutpage'
+import WebsiteLayout from "./pages/layouts/WebsiteLayout"
+import AddProduct from './pages/AddProduct'
+import { ProductType } from './pages/types/product'
+import { list, remove, add, update } from './api/product'
+import ProductEdit from './pages/ProductEdit'
+import Register from './pages/Register'
+import Login from './pages/Login'
+import LienHe from './pages/LienHe'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const getProducts = async () => {
+      const { data } = await list()
+      setProducts(data);
+    }
+    getProducts();
+  }, [])
+
+  const removeItem = (id: number | string) => {
+    remove(id);
+    setProducts(products.filter(item => item._id !== id));
+  }
+
+  const onHandleAdd = (data: ProductType) => {
+    add(data);
+    setProducts([...products, data])
+  }
+  const onHandleUpdate = async (product: ProductType) => {
+    const { data } = await update(product);
+
+    // setProducts(products.map(item => item.id === data.id ? data : item ));
+  }
+
+
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
+    <>
+      <div className="container">
+        <Routes>
+          <Route path="/" element={<WebsiteLayout />}>
+            <Route index element={<Homepage />}></Route>
+            <Route path="lienhe" element={<LienHe />}></Route>
+            <Route path="product" element={<ProductPage products={products} onRemove={removeItem} />}></Route>
+            <Route path="product/add" element={<AddProduct onAdd={onHandleAdd} />}></Route>
+            <Route path="product/:id/edit" element={<ProductEdit onUpdate={onHandleUpdate} />}></Route>
+            <Route path="register" element={<Register />} ></Route>
+            <Route path="login" element={<Login />} ></Route>
+          </Route>
+        </Routes>
+      </div>
+    </>
   )
 }
 
