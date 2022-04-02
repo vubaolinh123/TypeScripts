@@ -1,8 +1,8 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import Banner from '../../components/Banner'
-import Footer from '../../components/Footer'
-import Header from '../../components/Header'
+import Footer from '../../components/Footer/Footer'
+import NavBar from '../../components/NavBar/NavBar'
+import Slider from '../../components/Slider/Slider'
 
 
 type Props = {}
@@ -10,8 +10,7 @@ type Props = {}
 const WebsiteLayout = (props: Props) => {
   return (
     <div>
-      <Header />
-      <Banner />
+      <NavBar />
       <Outlet />
       <Footer />
     </div>

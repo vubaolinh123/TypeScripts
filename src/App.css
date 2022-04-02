@@ -1,26 +1,40 @@
 
-
-.nav-link {
-  position: relative;
+body{
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
-.nav-link::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background-color: red;
-  transform-origin: bottom right;
-  transform: scaleX(0);
-  transition: transform 0.5s ease;
+.nav-link.active {
+   color: red;
 }
 
-.nav-link:hover::before {
-  transform-origin: bottom left;
-  transform: scaleX(1);
+.listItem {
+    display: none;
 }
-.nav-link.active::before {
-    transform: scaleX(1);
+
+.listNav:hover .listItem {
+    display: block;
+}
+
+.listItem::before {
+    position: absolute;
+    content: "";
+    width: 100px;
+    height: 50px;
+    top: -33px;
+}
+
+.count-holder{
+    display: inline-block;
+    vertical-align: top;
+    background: #2962ff;
+    color: #fff;
+    font-size: 11px;
+    text-align: center;
+    left: 23px;
+    top: -10px;
+    padding: 0px 3px;
+    min-width: 20px;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 50%;
 }
